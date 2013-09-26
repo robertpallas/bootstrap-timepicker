@@ -26,6 +26,7 @@
     this.showSeconds = options.showSeconds;
     this.template = options.template;
     this.appendWidgetTo = options.appendWidgetTo;
+    this.isClock = options.isClock;
 
     this._init();
   };
@@ -104,7 +105,11 @@
         }
       } else {
         if (this.hour === 0) {
-          this.hour = 23;
+          if (this.isClock) {
+            this.hour = 23;
+          } else {
+            this.hour = 0;
+          }
         } else {
           this.hour--;
         }
@@ -497,7 +502,7 @@
           this.hour = 0;
         }
       }
-      if (this.hour === 23) {
+      if (this.hour === 23 && this.isClock) {
         this.hour = 0;
 
         return;
@@ -626,7 +631,7 @@
           this.meridian = 'AM';
         }
       } else {
-        if (this.hour >= 24) {
+        if (this.hour >= 24 && this.isClock) {
           this.hour = 23;
         } else if (this.hour < 0) {
           this.hour = 0;
@@ -880,7 +885,8 @@
     showInputs: true,
     showMeridian: true,
     template: 'dropdown',
-    appendWidgetTo: '.bootstrap-timepicker'
+    appendWidgetTo: '.bootstrap-timepicker',
+    isClock: true
   };
 
   $.fn.timepicker.Constructor = Timepicker;
